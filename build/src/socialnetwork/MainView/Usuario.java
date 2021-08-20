@@ -113,9 +113,8 @@ public class Usuario {
      * Permite al usuario registrado en la red social ingresar a su sesion
       * @param sn SocialNetwork
      */
-    public void login(Socialnetwork sn) {
-        Scanner entrada1 = new Scanner(System.in); //Scanner para el nombre de usuario
-        Scanner entrada2 = new Scanner(System.in); //Scanner para la contrasenia
+    public void login(Socialnetwork sn, String entrada1, String entrada2) {
+        
         ArrayList<Usuario> listaUsuarios = sn.getUsuarios(); //ArrayList con los usuarios de la red social
         ArrayList<Usuario> listaUsuarioActivo = sn.getUsuarioActivo(); //ArrayList donde estara el usuario activo
         boolean logear = false; //condicion para ciclo while
@@ -123,16 +122,14 @@ public class Usuario {
         while(true) {
             while (!logear) {
                 boolean encontrado = false; //verificador para ver si el nombre de usuario se encuentra registrado en la red social
-                System.out.println("\n\n Si desea salir del programa, ingrese salir");
-                System.out.println(" Ingrese nombre de Usuario : \n");
-                String username = entrada1.next(); //Se ingresa el nombre del usuario
+                //System.out.println("\n\n Si desea salir del programa, ingrese salir");
+                //System.out.println(" Ingrese nombre de Usuario : \n");
+                String username = entrada1; //Se ingresa el nombre del usuario
                 // Si el usuario ingresa salir, el programa termina de ejecutarse
-                if (username.equals("salir")) {
-                    System.exit(0);
-                }
+                
 
-                System.out.println("\n Ingrese Contrasenia: \n");
-                String password = entrada2.next(); //Se ingresa la contrasenia del usuario
+                //System.out.println("\n Ingrese Contrasenia: \n");
+                String password = entrada2; //Se ingresa la contrasenia del usuario
                 // Ciclo for para recorrer la lista de usuarios de la red social
                 for (int i = 0; i < listaUsuarios.size(); ++i) {
                     String Username = listaUsuarios.get(i).getNombre();
@@ -142,21 +139,29 @@ public class Usuario {
                         encontrado = true;
                         //Si la contrasenia del usuario se encuentra registrada
                         if (password.equals(Password)) {
-                            System.out.println("\n\n--> Ha iniciado Sesion <--");
+                            //System.out.println("\n\n--> Ha iniciado Sesion <--");
+                            
+                            new LoginSuccess().setVisible(true);
+                            
                             listaUsuarioActivo.add(listaUsuarios.get(i)); //se agrega el usuario logeado a la lista de usuario activo de la red social
                             listaUsuarios.remove(i); // se elimina el usuario logeado de la lista de usuarios de la red social
-
+                                    
                             logear = true; //nombre y contrasenia coinciden con un usuario registrado y se termina el ciclo while
                         } else { //Mensaje de error si el usuario ingreso un nombre de usuario existente pero no una contrasenia correcta
-                            System.out.printf("\n **** Contrasenia Incorrecta **** ");
+                            //System.out.printf("\n **** Contrasenia Incorrecta **** ");
+                            new LoginWrongPass().setVisible(true);
+                            break;
                         }
 
                         break;
                     }
                 }
                 if (!logear && !encontrado) { //Mensaje de error si el usuario ingreso un nombre de usuario no existente en la red social
-                    System.out.printf("\n **** Usuario no Registrado **** ");
+                    //System.out.printf("\n **** Usuario no Registrado **** ");
+                    new LoginNotFound().setVisible(true);
+                    break;
                 }
+                break;
             }
             return;
         }

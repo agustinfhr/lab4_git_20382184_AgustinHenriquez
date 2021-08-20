@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class LoginFrame extends javax.swing.JFrame {
 
     FondoPanel fondo = new FondoPanel();
@@ -144,15 +145,24 @@ public class LoginFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    //Boton Ingresar
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
+       String username = jTextField1.getText();
+       String password = new String(jPasswordField1.getPassword());
        
+       Usuario user = new Usuario(" ", " ", 0, (ArrayList)null, (ArrayList)null, (ArrayList)null);
         
-        new LoginSuccess().setVisible(true);
+       user.login(MainFrame.sn, username, password);
+       
+       setVisible(false);
+       //new LoginSuccess().setVisible(true);
+        
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    //Boton Volver
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         new MainFrame().setVisible(true);
         setVisible(false);

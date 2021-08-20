@@ -14,11 +14,11 @@ import javax.swing.JPanel;
  *
  * @author agust
  */
-public class LoginSuccess extends javax.swing.JFrame {
+public class LoginWrongPass extends javax.swing.JFrame {
 
     FondoPanel fondo = new FondoPanel();
     
-    public LoginSuccess() {
+    public LoginWrongPass() {
         this.setContentPane(fondo);
         initComponents();
         setLocationRelativeTo(null);
@@ -44,7 +44,7 @@ public class LoginSuccess extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel1.setText("Inicio de sesion exitoso!");
+        jLabel1.setText("Error, contrasenia incorrecta!");
 
         jButton4.setBackground(new java.awt.Color(255, 102, 102));
         jButton4.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -100,9 +100,8 @@ public class LoginSuccess extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
         setVisible(false);
-        new MenuFrame().setVisible(true);
+        new LoginFrame().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
@@ -122,20 +121,20 @@ public class LoginSuccess extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginSuccess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginWrongPass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginSuccess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginWrongPass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginSuccess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginWrongPass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginSuccess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginWrongPass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginSuccess().setVisible(true);
+                new LoginWrongPass().setVisible(true);
             }
         });
     }
@@ -145,15 +144,15 @@ public class LoginSuccess extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
-    
-    class FondoPanel extends JPanel {
+
+class FondoPanel extends JPanel {
         
         private Image imagen;
         
         
         public void paint(Graphics g){
             
-            imagen = new ImageIcon(getClass().getResource("/imagenes/loginSucs.jpg")).getImage(); 
+            imagen = new ImageIcon(getClass().getResource("/imagenes/loginWrongPass.jpg")).getImage(); 
            
             g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
            
@@ -162,6 +161,6 @@ public class LoginSuccess extends javax.swing.JFrame {
             super.paint(g);
         }
                 
-   }
+   }    
 
 }

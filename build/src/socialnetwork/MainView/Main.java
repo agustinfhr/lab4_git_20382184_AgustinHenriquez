@@ -22,29 +22,17 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         Socialnetwork sn = Socialnetwork.sn1(); //Se Inicializara un SocialNetwork con elementos poblados
         boolean salir = false; //Condicion para mantener el ciclo while mientras el usuario seleccione una opcion correcta
-
+        
         while(!salir) {
-            System.out.println("\n BIENVENIDO A \n");
-            System.out.println("      ##   #####   ##    ##   #####    ######   ######    #####   ###    ###   \n" +
-                               "      ##  ##   ##  ##    ##  ##   ##  ##        ##   ##  ##   ##  ####  ####   \n" +
-                               "      ##  ##   ##  ##    ##  ##   ##  ##        ##   ##  ##   ##  ####  ####   \n" +
-                               "      ##  #######   ##  ##   #######  ##   ##   #####    #######  ## #### ##   \n" +
-                               " ##   ##  ##   ##    ####    ##   ##  ##    ##  ##   ##  ##   ##  ##  ##  ##   \n" +
-                               "  #####   ##   ##     ##     ##   ##   ######   ##   ##  ##   ##  ##      ##  ඞ \n" +
-                               "                                                                        ");
-            System.out.println(" Escoja una opcion: ");
-            System.out.println(" 1. Iniciar Sesion");
-            System.out.println(" 2. Registrarse ");
-            System.out.println(" 3. Salir del programa \n");
-            System.out.println("Ingrese opcion: \n");
-
+                
+            
             try {
                 int opcion = scan.nextInt(); // Se guarda en 'opcion' el valor ingresado por el usuario
                 switch(opcion) {
                     case 1: // opcion login
                         System.out.println("\n--> Ha elegido la opcion INICIAR SESION <--");
                         Usuario usuario = new Usuario(" ", " ", 0, (ArrayList)null, (ArrayList)null, (ArrayList)null);
-                        usuario.login(sn);
+                        
                         menu(sn);
                         break;
                     case 2: // opcion register
