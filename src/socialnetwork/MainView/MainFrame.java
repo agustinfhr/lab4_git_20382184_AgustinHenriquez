@@ -18,8 +18,8 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
     }
-
- 
+    
+    public static Socialnetwork sn = Socialnetwork.sn1(); //Se Inicializara un SocialNetwork con elementos poblados
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -108,12 +108,17 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Boton Iniciar Sesion 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        
+        new LoginFrame().setVisible(true);
+        setVisible(false);
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    //Boton Registrarse
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
