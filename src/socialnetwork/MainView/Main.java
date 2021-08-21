@@ -89,23 +89,23 @@ public class Main {
                         break;
                     case 2: // Opcion Seguir a un usuario
                         System.out.println("--> Ha elegido la opcion Seguir a un usuario <--");
-                        usuarioActivo.follow(sn);
+                        
                         break;
                     case 3: // Opcion Compartir publicacion
                         System.out.println("--> Ha elegido la opcion Compartir publicacion <--");
-                        usuarioActivo.share(sn);
+                        
                         break;
                     case 4: // Opcion Realizar comentario
                         System.out.println("--> Ha elegido la opcion Realizar un Comentario <--");
-                        usuarioActivo.comment(sn);
+                        
                         break;
                     case 5: // Opcion Realizar un ME GUSTA
                         System.out.println("--> Ha elegido la opcion Realizar un ME GUSTA <--");
-                        usuarioActivo.like(sn);
+                        
                         break;
                     case 6: // Opcion Visualizar red social
                         System.out.println("--> Ha elegido la opcion Visualizar red social <--\n\n");
-                        usuarioActivo.PrintSocialNetwork(sn);
+                        
                         break;
                     case 7: // Opcion Cerrar sesion
                         System.out.println("\n\n--> Ha elegido la opcion Cerrar sesion <--\n\n");

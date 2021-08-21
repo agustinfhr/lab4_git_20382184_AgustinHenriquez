@@ -217,32 +217,37 @@ public class MenuFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //Boton Post
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         setVisible(false);
         new PostFrame().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    //Boton Follow
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
+        new FollowFrame().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
-
+    //Boton Share
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
+        new ShareFrame().setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
-
+    //Boton Comment
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
+        new CommentFrame().setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
-
+    //Boton Like
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
+        new LikeFrame().setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
-
+    //Boton Visualize
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
+        new VisualizeFrame().setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
-
+    //Boton Logout
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton9ActionPerformed

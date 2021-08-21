@@ -1,6 +1,7 @@
 package socialnetwork.MainView;
 
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 
 /**
  * Una clase para representar una publicacion dentro de la red social
@@ -121,41 +122,57 @@ public class Publicacion {
      * Convierte los datos de la publicacion a String
      * @return String
      */
-    public String toString() {
+    public DefaultListModel toString(DefaultListModel modelo) {
         //La funcionalidad puede retornar varias opciones dependiendo de la publicacion
         //Si la publicacion NO tiene usuario que la compartio y NO tiene reacciones
         if (usuarioShare == null && reacciones == null) {
-            return " Id: " + id + " | Tipo de publicacion: " + tipoPublicacion + " | Creado por: " + autor + " | Publicado el dia: " + fecha +
-                    "\n" + " Contenido: " + contenido +
-                    "\n" + " Publicacion sin Reacciones " + "\n";
+            modelo.addElement(" Id: " + id + " | Tipo de publicacion: " + tipoPublicacion + " | Creado por: " + autor + " | Publicado el dia: " + fecha);
+            modelo.addElement(" Contenido: " + contenido);
+            modelo.addElement(" Publicacion sin Reacciones ");
+            modelo.addElement("");
+            return modelo;
         }
         //Si la publicacion tiene a un usuario que la compartio pero NO tiene reacciones
         if (usuarioShare != null && reacciones == null) {
-            return " Id: " + id + " | Tipo de publicacion: " + tipoPublicacion + " | Creado por: " + autor + " | Publicado el dia: " + fecha +
-                    "\n" + " Contenido: " + contenido +
-                    "\n" + " Publicacion sin Reacciones " +
-                    "\n" + " Compartido por el Usuario: " + usuarioShare + " | En el dia: " + fechaShare + "\n";
+            
+            modelo.addElement(" Id: " + id + " | Tipo de publicacion: " + tipoPublicacion + " | Creado por: " + autor + " | Publicado el dia: " + fecha);
+            modelo.addElement(" Contenido: " + contenido);
+            modelo.addElement(" Publicacion sin Reacciones ");
+            modelo.addElement(" Compartido por el Usuario: " + usuarioShare + " | En el dia: " + fechaShare);
+            modelo.addElement("");
+            return modelo;
         }
         //Si la publicacion NO tiene usuario que la compartio y tiene reacciones
         if (usuarioShare == null && reacciones != null) {
-            return " Id: " + id + " | Tipo de publicacion: " + tipoPublicacion + " | Creado por: " + autor + " | Publicado el dia: " + fecha +
-                    "\n" + " Contenido: " + contenido +
-                    "\n" + " ------ Reacciones de esta Publicacion ------ " +
-                    "\n" + reacciones.toString() +
-                    "\n" + " ------------- Fin Reacciones --------------- " + "\n\n";
+            modelo.addElement(" Id: " + id + " | Tipo de publicacion: " + tipoPublicacion + " | Creado por: " + autor + " | Publicado el dia: " + fecha);
+            modelo.addElement(" Contenido: " + contenido);
+            modelo.addElement(" ------ Reacciones de esta Publicacion ------ ");
+            
+            for (Reaccion r :  reacciones) {
+                modelo = r.toString(modelo);
+            }
+            modelo.addElement(" ------------- Fin Reacciones --------------- ");
+            modelo.addElement("");
+            
+            return modelo;
 
         }
         //Si la publicacion tiene a un usuario que la compartio y tiene reacciones
         if (usuarioShare != null && reacciones != null) {
-            return " Id: " + id + " | Tipo de publicacion: " + tipoPublicacion + " | Creado por: " + autor + " | Publicado el dia: " + fecha +
-                    "\n" + " Contenido: " + contenido +
-                    "\n" + " ------ Reacciones ------ " +
-                    "\n" + reacciones.toString() +
-                    "\n" + " ------------------------ " +
-                    "\n" + " Compartido por el Usuario: " + usuarioShare + " | En el dia: " + fechaShare + "\n";
+            modelo.addElement(" Id: " + id + " | Tipo de publicacion: " + tipoPublicacion + " | Creado por: " + autor + " | Publicado el dia: " + fecha);
+            modelo.addElement(" Contenido: " + contenido);
+            modelo.addElement(" ------ Reacciones ------ ");
+            for (Reaccion r :  reacciones) {
+                modelo = r.toString(modelo);
+            }
+            modelo.addElement(" ------------------------ ");
+            modelo.addElement(" Compartido por el Usuario: " + usuarioShare + " | En el dia: " + fechaShare);
+            modelo.addElement("");
+            
+            return modelo;
 
         }
-        return "";
+        return modelo;
     }
 }
 

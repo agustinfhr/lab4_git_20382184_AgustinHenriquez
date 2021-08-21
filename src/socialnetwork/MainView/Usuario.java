@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.DefaultListModel;
 
 /**
  * Una clase para representar un Usuario dentro de la red social
@@ -248,71 +249,45 @@ public class Usuario {
      * Permite al usuario con sesion iniciada seguir a un usuario registrado en la red social
      * @param sn SocialNetwork
      */
-    public void follow(Socialnetwork sn){
-
-        Scanner entrada1 = new Scanner(System.in); //Scanner para el nombre de usuario a seguir
+    public void follow(Socialnetwork sn, String usuarioAseguir){
 
         ArrayList<Usuario> UsuarioActivo = sn.getUsuarioActivo(); //ArrayList con el usuario activo de la red social
         ArrayList<Usuario> listaUserDisponibles = sn.getUsuarios(); //ArrayList con los usuario registrados en la red social
 
         String nombreUsuario = UsuarioActivo.get(0).getNombre(); //Obtenemos nombre de usuario activo
 
-        boolean salir = false;
+        Usuario u = new Usuario(usuarioAseguir, null, 0, (ArrayList)null, (ArrayList)null, (ArrayList)null); // se crea usuario a seguir para buscar si se encuentra registrado
+  
+        boolean yaSeguido = false; //verifica que el usuario activo no siga otra vez al mismo usuario
 
-        while(!salir) {
+        for (Usuario u2 : listaUserDisponibles) { // se recorre la lista de usuarios registrados
+            if (u2.getNombre().equals(u.getNombre())) {
+                ArrayList<String> seguidoresU2 = u2.getSeguidores();
+                if (seguidoresU2 != null) {
+                    for (String name : seguidoresU2) {
+                        if (nombreUsuario.equals(name)) {
+                            //mensaje de error si el usuario a seguir ya es seguido por el usuario activo
+                            System.out.printf("\n\n *** Error, Ya sigues a este Usuario! *** \n");
+                            new YaFollowFail().setVisible(true);
+                            yaSeguido = true;
 
-            System.out.printf("\n\n Usuarios registrados"); //mostramos al usuario activo los usuario registrados de la red social a los cuales puede seguir
-            for (Usuario listaUsuario : listaUserDisponibles) {
-                String nombreUsuarios = listaUsuario.getNombre();
-                System.out.printf(" Nombre: " + nombreUsuarios);
-            }
-
-            System.out.println("\n\n Ingrese el nombre del Usuario a seguir: \n");
-            System.out.println(" Si no desea seguir a un Usuario ingrese salir \n");
-            String usuarioAseguir = entrada1.nextLine(); //Se escanea el nombre de usuario a seguir
-
-            Usuario u = new Usuario(usuarioAseguir, null, 0, (ArrayList)null, (ArrayList)null, (ArrayList)null); // se crea usuario a seguir para buscar si se encuentra registrado
-
-            if (usuarioAseguir.equals("salir")) { //si usuario activo no quiere seguir a otro usuario ingresa salir
-                break;
-            }
-            boolean encontrado = false; //verifica si el usuario a seguir se encuentra registrado en la red social
-            boolean yaSeguido = false; //verifica que el usuario activo no siga otra vez al mismo usuario
-
-            for (Usuario u2 : listaUserDisponibles) { // se recorre la lista de usuarios registrados
-                if (u2.getNombre().equals(u.getNombre())) {
-                    ArrayList<String> seguidoresU2 = u2.getSeguidores();
-                    if (seguidoresU2 != null) {
-                        for (String name : seguidoresU2) {
-                            if (nombreUsuario.equals(name)) {
-                                //mensaje de error si el usuario a seguir ya es seguido por el usuario activo
-                                System.out.printf("\n\n *** Error, Ya sigues a este Usuario! *** \n");
-                                yaSeguido = true;
-
-                            }
                         }
-                    }
-                    if (!yaSeguido) {
-                        if (seguidoresU2 == null) { //si el usuario a seguir no tiene seguidores
-                            ArrayList<String> nuevosSeguidores = new ArrayList<>();
-                            nuevosSeguidores.add(nombreUsuario);
-                            u2.setSeguidores(nuevosSeguidores); //se añade el nuevo seguir a la lista de seguidores del usuario a seguir
-                        } else { // el usuario a seguir ya tenia seguidores
-                            seguidoresU2.add(nombreUsuario);
-                            u2.setSeguidores(seguidoresU2); //se añade el nuevo seguir a la lista de seguidores del usuario a seguir
-                        }
-
-                        System.out.printf("\n\n-----> Ahora sigues al Usuario " + usuarioAseguir + "! <-----\n"); //mensaje de confirmacion
-                        encontrado = true;
-                        salir = true;
                     }
                 }
+                if (!yaSeguido) {
+                    if (seguidoresU2 == null) { //si el usuario a seguir no tiene seguidores
+                        ArrayList<String> nuevosSeguidores = new ArrayList<>();
+                        nuevosSeguidores.add(nombreUsuario);
+                        u2.setSeguidores(nuevosSeguidores); //se añade el nuevo seguir a la lista de seguidores del usuario a seguir
+                    } else { // el usuario a seguir ya tenia seguidores
+                        seguidoresU2.add(nombreUsuario);
+                        u2.setSeguidores(seguidoresU2); //se añade el nuevo seguir a la lista de seguidores del usuario a seguir
+                    }
+                    new FollowSuccess().setVisible(true);  
+                    //System.out.printf("\n\n-----> Ahora sigues al Usuario " + usuarioAseguir + "! <-----\n"); //mensaje de confirmacion
+                        
+                }
             }
-
-            if (!encontrado && !yaSeguido) { //si el usuario a seguir no se encuentra registrado en la red social
-                System.out.println("\n ***** Usuario a seguir no existe *****  ");
-            }
-
         }
 
     }
@@ -321,13 +296,10 @@ public class Usuario {
      * Permite al usuario con sesion iniciada compartir una publicacion hacia otros usuarios registrados en la red social
      * @param sn SocialNetwork
      */
-    public void share(Socialnetwork sn){
+    public void share(Socialnetwork sn, int entrada1, ArrayList<String> userDirigidos){
 
         LocalDate today = LocalDate.now(); //fecha del actual sistema
         String fecha = today.format(DateTimeFormatter.ofPattern("dd/MMM/yy")); //fecha a String
-
-        Scanner scan = new Scanner(System.in); //Scanner para escanear el id de la publicacion a compartir
-        Scanner dirigidos = new Scanner(System.in); //Scanner para escanear el id de usuario a compartir
 
         ArrayList<Usuario> UsuarioActivo = sn.getUsuarioActivo(); //ArrayList con el usuario activo de la red social
         ArrayList<Usuario> listaUserDisponibles = sn.getUsuarios(); //ArrayList con los usuario registrados en la red social
@@ -337,101 +309,66 @@ public class Usuario {
 
         String nombreUsuario = UsuarioActivo.get(0).getNombre(); // Se obtiene el nombre del usuario activo
 
-        boolean salir = false;
-        while (!salir) {
+        
 
-            System.out.printf("\n\n Publicaciones disponibles "); //Se muestra al usuario activo las publicaciones que puede compartir
-            for (Publicacion Post : listaPublicaciones) {
-                int idPost = Post.getId();
-                String contenido = Post.getContenido();
-                String autor = Post.getAutor();
-                System.out.printf("\n ID: " + idPost + " | Autor: " + autor + " | Contenido: " + contenido);
-            }
+        System.out.println("\n\n Ingrese el ID de la publicacion a compartir: \n");
+        int IDpost = entrada1; // Se escanea el id de la publicacion a compartir
 
-            System.out.println("\n\n Ingrese el ID de la publicacion a compartir: \n");
-            int IDpost = scan.nextInt(); // Se escanea el id de la publicacion a compartir
+        Publicacion post = new Publicacion(IDpost, (ArrayList) null, null, null, null, null); // Se crea publicacion a buscar
 
-            Publicacion post = new Publicacion(IDpost, (ArrayList) null, null, null, null, null); // Se crea publicacion a buscar
+        boolean encontrado = false;
 
-            boolean encontrado = false;
-
-            for (Publicacion p : listaPublicaciones) { //se recorre la lista de publicaciones de la red social
-                if (p.getId() == post.getId()) {
-                    postShare = p;
-                    salir = true;
-                    encontrado = true; //se encuentra la publicacion
-                }
-            }
-            if (!encontrado) { //mensaje de error si la publicacion no se encuentra en la red social
-                System.out.println("\n\n ****** La Publicacion NO existe ****** \n");
+        for (Publicacion p : listaPublicaciones) { //se recorre la lista de publicaciones de la red social
+            if (p.getId() == post.getId()) {
+                postShare = p;
+                
+                encontrado = true; //se encuentra la publicacion
             }
         }
-
-        salir = false;
-        ArrayList<String> nuevaListUsers = new ArrayList<>(); //arreglo para almacenar a los usuarios que les sera compartida la publicacion
-
-        while (!salir) {
-
-            System.out.printf("\n\n Usuarios registrados "); //Se muestra al usuario activo los usuario registrados a los cuales puede compartir la publicacion
-            for (Usuario listaUsuario : listaUserDisponibles) {
-                String nombreUsuarios = listaUsuario.getNombre();
-                System.out.printf(" Nombre: " + nombreUsuarios);
-            }
+        if (!encontrado) { //mensaje de error si la publicacion no se encuentra en la red social
+            System.out.println("\n\n ****** La Publicacion NO existe ****** \n");
+            new PostNotFound().setVisible(true);
+        }
+        if (encontrado == true) {
+            ArrayList<String> nuevaListUsers = new ArrayList<>(); //arreglo para almacenar a los usuarios que les sera compartida la publicacion
+  
 
             System.out.println("\n\n Ingrese el nombre del Usuario a compartir: \n");
             System.out.println(" Si no desea compartir la publicacion a mas Usuarios ingrese salir \n");
-            String usuarioShare = dirigidos.nextLine(); //Escanea el nombre de usuario a compartir
+            String usuarioShare;
+            
+            for (String user : userDirigidos) {
+                
+                Usuario u = new Usuario(user, null, 0, (ArrayList)null, (ArrayList)null, (ArrayList)null); //se crea usuario a buscar para compartir publicacion
 
-            Usuario u = new Usuario(usuarioShare, null, 0, (ArrayList)null, (ArrayList)null, (ArrayList)null); //se crea usuario a buscar para compartir publicacion
+                
+                ArrayList<Publicacion> listaPost = new ArrayList<>();
 
-            if (usuarioShare.equals("salir")) { //si usuario ingresa salir
-                break;
-            }
+                for (Usuario u2 : listaUserDisponibles) { //se recorre la lista de usuarios registrados
+                    if (u2.getNombre().equals(u.getNombre())) { //se encuentra al usuario registrado
+                        nuevaListUsers.add(u2.getNombre());
+                        ArrayList<Publicacion> listaPostShare = u2.getPublicacionesCompartidas();
+                        if (listaPostShare == null){ //si el usuario a compartir no tiene ninguna publicacion compartida
+                            postShare.setFechaShare(fecha);
+                            postShare.setUsuarioShare(nombreUsuario);
+                            listaPost.add(postShare);
+                            u2.setPublicacionesCompartidas(listaPost);
 
-
-
-            boolean encontrado = false;
-            ArrayList<Publicacion> listaPost = new ArrayList<>();
-
-            for (Usuario u2 : listaUserDisponibles) { //se recorre la lista de usuarios registrados
-                if (u2.getNombre().equals(u.getNombre())) { //se encuentra al usuario registrado
-                    nuevaListUsers.add(u2.getNombre());
-                    ArrayList<Publicacion> listaPostShare = u2.getPublicacionesCompartidas();
-                    if (listaPostShare == null){ //si el usuario a compartir no tiene ninguna publicacion compartida
-                        postShare.setFechaShare(fecha);
-                        postShare.setUsuarioShare(nombreUsuario);
-                        listaPost.add(postShare);
-                        u2.setPublicacionesCompartidas(listaPost);
-
-                    } else { //si el usuario a compartir ya tiene publicaciones compartidas
-                        postShare.setFechaShare(fecha);
-                        postShare.setUsuarioShare(nombreUsuario);
-                        listaPostShare.add(postShare);
+                        } else { //si el usuario a compartir ya tiene publicaciones compartidas
+                            postShare.setFechaShare(fecha);
+                            postShare.setUsuarioShare(nombreUsuario);
+                            listaPostShare.add(postShare);
+                        }   
+                        
                     }
-
-                    System.out.printf("\n\n Usuarios a compartir: \n " + nuevaListUsers.toString()); //Se muestra los usuarios a compartir
-                    encontrado = true;
                 }
+        
             }
-
-            if (!encontrado) { //si el usuario a compartir no se encuentra registrado en la red social
-
-                if (usuarioShare.equals("salir")) {
-
-                    salir = true;
-                    System.out.printf("\n\n -----> Se ha compartido la Publicacion <-----");
-
-                } else  {
-                    //Mensaje de error usuario a compartir no se encuentra registrado
-                    System.out.printf("\n ****** Usuario NO existente ******");
-
-                    System.out.printf("\n\n Usuarios a compartir: \n " + nuevaListUsers.toString());
-                }
-            }
-
-
+            
+            new ShareSuccess().setVisible(true);
+            
         }
-
+        
     }
 
     /**
@@ -439,49 +376,76 @@ public class Usuario {
      * @param sn SocialNetwork
      * @return String
      */
-    public String SocialNetworkToString(Socialnetwork sn) {
+    public DefaultListModel SocialNetworkToString(Socialnetwork sn, DefaultListModel modelo) {
 
         ArrayList<Usuario> UsuarioActivo = sn.getUsuarioActivo();
         ArrayList<Publicacion> publicaciones = UsuarioActivo.get(0).getPublicaciones();
         ArrayList<String> seguidores = UsuarioActivo.get(0).getSeguidores();
         ArrayList<Publicacion> publicacionesCompartidas = UsuarioActivo.get(0).getPublicacionesCompartidas();
         String nombreUsuario = UsuarioActivo.get(0).getNombre();
-        String sn0 = "\n ####### Visualizando sesion de Usuario: " + nombreUsuario + " #######\n";
-        String sn1;
-        String sn2;
-        String sn3;
 
         if (publicaciones == null) {
-            sn1 = "\n ---- Tus Publicaciones ---- \n\n" + " No tienes Publicaciones\n";
+            modelo.addElement("---- Tus Publicaciones ----"); //= "\n ---- Tus Publicaciones ---- \n\n" + " No tienes Publicaciones\n";
+            modelo.addElement("");
+            modelo.addElement(" No tienes Publicaciones");
+            modelo.addElement("");
         } else {
-            sn1 = "\n ---- Tus Publicaciones ---- \n\n" + publicaciones.toString();
+            modelo.addElement("---- Tus Publicaciones ----");
+            for (Publicacion post :  publicaciones) {
+                modelo = post.toString(modelo);
+            }
+            
+            modelo.addElement("");
+        
+            //sn1 = "\n ---- Tus Publicaciones ---- \n\n" + publicaciones.toString();
         }
 
         if (seguidores == null) {
-            sn2 = "\n ---- Tus Seguidores ---- \n\n" + " No tienes Seguidores\n";
+            //sn2 = "\n ---- Tus Seguidores ---- \n\n" + " No tienes Seguidores\n";
+            modelo.addElement("---- Tus Seguidores ----");
+            modelo.addElement("");
+            modelo.addElement(" No tienes Seguidores");
+            modelo.addElement("");
+            
         } else {
-            sn2 = "\n ---- Tus Seguidores ---- \n\n" + seguidores;
+            modelo.addElement("---- Tus Seguidores ----");
+            modelo.addElement("");
+            modelo.addElement(seguidores);
+            modelo.addElement("");
+            //sn2 = "\n ---- Tus Seguidores ---- \n\n" + seguidores;
         }
 
         if (publicacionesCompartidas == null) {
-            sn3 = "\n ---- Publicaciones que te compartieron ---- \n\n" + " No tienes Publicaciones compartidas\n";
+            modelo.addElement("---- Publicaciones que te compartieron ----");
+            modelo.addElement("");
+            modelo.addElement(" No tienes Publicaciones compartidas");
+            modelo.addElement("");
+            //sn3 = "\n ---- Publicaciones que te compartieron ---- \n\n" + " No tienes Publicaciones compartidas\n";
         } else {
-            sn3 = "\n ---- Publicaciones que te compartieron ---- \n\n" + publicacionesCompartidas.toString();
+            modelo.addElement("---- Publicaciones que te compartieron ----");
+            modelo.addElement("");
+            for (Publicacion post :  publicacionesCompartidas) {
+                modelo = post.toString(modelo);
+            }
+            modelo.addElement("");
+            
+            //sn3 = "\n ---- Publicaciones que te compartieron ---- \n\n" + publicacionesCompartidas.toString();
 
         }
-        String socialNetwork = sn0 + sn1 + sn2 + sn3;
-        return socialNetwork;
+        
+        return modelo;
     }
 
     /**
      * Permite al usuario con sesion iniciada visualizar los datos de su sesion de la red social
      * @param sn SocialNetwork
      */
-    public void PrintSocialNetwork(Socialnetwork sn) {
+    public DefaultListModel PrintSocialNetwork(Socialnetwork sn, DefaultListModel modelo) {
 
         ArrayList<Usuario> UsuarioActivo = sn.getUsuarioActivo();
-        String SN = UsuarioActivo.get(0).SocialNetworkToString(sn);
-        System.out.printf(SN);
+        DefaultListModel modeloFinal = UsuarioActivo.get(0).SocialNetworkToString(sn,modelo);
+        //System.out.printf(SN);
+        return modeloFinal;
 
     }
 
@@ -489,13 +453,10 @@ public class Usuario {
      * Permite al usuario con sesion iniciada realizar un comentario a una publicacion en la red social
      * @param sn SocialNetwork
      */
-    public void comment(Socialnetwork sn) {
+    public void comment(Socialnetwork sn, int entrada1, String entrada2) {
 
         LocalDate today = LocalDate.now();  //fecha del actual sistema
         String fecha = today.format(DateTimeFormatter.ofPattern("dd/MMM/yy")); // fecha a String
-
-        Scanner scan = new Scanner(System.in); //Scanner para escanear el id de la publicacion a comentar
-        Scanner texto = new Scanner(System.in); //Scanner para escanear el contenido del comentario ingresado por el usuario activo
 
         ArrayList<Usuario> UsuarioActivo = sn.getUsuarioActivo();
         ArrayList<Publicacion> listaPublicaciones = sn.getPublicaciones();
@@ -504,65 +465,63 @@ public class Usuario {
 
         String nombreUsuario = UsuarioActivo.get(0).getNombre(); // Se obtiene nombre de usuario activo
 
-        boolean salir = false;
-        while (!salir) {
+      
+        //System.out.println("\n\n Ingrese el ID de la publicacion a comentar: \n");
+        int IDpost = entrada1; // se escanea el id de la publicacion a comentar
 
-            System.out.printf("\n\n Publicaciones disponibles "); //Se muestra al usuario activo las publicaciones que puede comentar
-            for (Publicacion Post : listaPublicaciones) {
-                int idPost = Post.getId();
-                String contenido = Post.getContenido();
-                String autor = Post.getAutor();
-                System.out.printf("\n ID: " + idPost + " | Autor: " + autor + " | Contenido: " + contenido);
-            }
+        Publicacion post = new Publicacion(IDpost, (ArrayList) null, null, null, null, null); //se crea publicacion para buscar la publicacion a comentar
 
-            System.out.println("\n\n Ingrese el ID de la publicacion a comentar: \n");
-            int IDpost = scan.nextInt(); // se escanea el id de la publicacion a comentar
+        boolean encontrado = false;
 
-            Publicacion post = new Publicacion(IDpost, (ArrayList) null, null, null, null, null); //se crea publicacion para buscar la publicacion a comentar
-
-            boolean encontrado = false;
-
-            for (Publicacion p : listaPublicaciones) { // se recorre la lista de publicaciones registradas en la red social
-                if (p.getId() == post.getId()) { // se encuentra la publicacion
-                    postComment = p;
-                    salir = true;
-                    encontrado = true;
-                }
-            }
-            if (!encontrado) { //mensaje de error la publicacion a comentar no se encuentra registrada
-                System.out.println("\n\n ****** La Publicacion NO existe ****** \n");
+        for (Publicacion p : listaPublicaciones) { // se recorre la lista de publicaciones registradas en la red social
+            if (p.getId() == post.getId()) { // se encuentra la publicacion
+                postComment = p;
+                    
+                encontrado = true;
             }
         }
+        if (!encontrado) { //mensaje de error la publicacion a comentar no se encuentra registrada
+            //System.out.println("\n\n ****** La Publicacion NO existe ****** \n");
+            new PostNotFoundComment().setVisible(true);
+        }
+        
+        if (encontrado == true) {
+            
+            System.out.printf("\n Ingrese el Comentario: \n");
+            String comentario = entrada2; // Se escanea el comentario del usuario activo
 
-        System.out.printf("\n Ingrese el Comentario: \n");
-        String comentario = texto.nextLine(); // Se escanea el comentario del usuario activo
+            if (postComment.getReacciones() == null) { //si la publicacion NO tiene reacciones
+                if (sn.getReacciones() == null) { //si la red social NO existen reacciones
+                    Reaccion comment = new Reaccion(1, nombreUsuario, fecha, "comentario", comentario);
+                    ArrayList<Reaccion> reacciones = new ArrayList<>();
+                    reacciones.add(comment);
+                    postComment.setReacciones(reacciones); //Se añade el comentario a la publicacion
+                    sn.setReacciones(reacciones);  //se añade la reaccion a la lista de reacciones de la red social
+                } else { // si la publicacion NO tiene reacciones Y la red social existen reacciones
+                    int id = sn.getReacciones().size() + 1; //id unico para el comentario
+                    Reaccion comment = new Reaccion(id, nombreUsuario, fecha, "comentario", comentario);
+                    ArrayList<Reaccion> reacciones = new ArrayList<>();
+                    reacciones.add(comment);
+                    postComment.setReacciones(reacciones); //Se añade el comentario a la publicacion
+                    ArrayList<Reaccion> reaccionesSn = sn.getReacciones();
+                    reaccionesSn.add(comment); //se añade la reaccion a la lista de reacciones de la red social
+                }
 
-        if (postComment.getReacciones() == null) { //si la publicacion NO tiene reacciones
-            if (sn.getReacciones() == null) { //si la red social NO existen reacciones
-                Reaccion comment = new Reaccion(1, nombreUsuario, fecha, "comentario", comentario);
-                ArrayList<Reaccion> reacciones = new ArrayList<>();
-                reacciones.add(comment);
-                postComment.setReacciones(reacciones); //Se añade el comentario a la publicacion
-                sn.setReacciones(reacciones);  //se añade la reaccion a la lista de reacciones de la red social
-            } else { // si la publicacion NO tiene reacciones Y la red social existen reacciones
-                int id = sn.getReacciones().size() + 1; //id unico para el comentario
-                Reaccion comment = new Reaccion(id, nombreUsuario, fecha, "comentario", comentario);
-                ArrayList<Reaccion> reacciones = new ArrayList<>();
-                reacciones.add(comment);
-                postComment.setReacciones(reacciones); //Se añade el comentario a la publicacion
+            } else { //Si la publicacion tiene reacciones previas
+                int id = sn.getReacciones().size() + 1; //asignar id unico
+                Reaccion comment = new Reaccion(id, nombreUsuario, fecha, "comentario", comentario); //nueva reaccion
+                ArrayList<Reaccion> reacciones = postComment.getReacciones();
+                reacciones.add(comment); // se añade el comentario a la lista de reacciones
                 ArrayList<Reaccion> reaccionesSn = sn.getReacciones();
                 reaccionesSn.add(comment); //se añade la reaccion a la lista de reacciones de la red social
             }
-
-        } else { //Si la publicacion tiene reacciones previas
-            int id = sn.getReacciones().size() + 1; //asignar id unico
-            Reaccion comment = new Reaccion(id, nombreUsuario, fecha, "comentario", comentario); //nueva reaccion
-            ArrayList<Reaccion> reacciones = postComment.getReacciones();
-            reacciones.add(comment); // se añade el comentario a la lista de reacciones
-            ArrayList<Reaccion> reaccionesSn = sn.getReacciones();
-            reaccionesSn.add(comment); //se añade la reaccion a la lista de reacciones de la red social
+            System.out.printf("\n\n -----> Se ha creado el Comentario <----- \n");
+            new CommentSuccess().setVisible(true);
         }
-        System.out.printf("\n\n -----> Se ha creado el Comentario <----- \n");
+        
+        
+
+        
 
     }
 
@@ -570,12 +529,10 @@ public class Usuario {
      * Permite al usuario con sesion iniciada dar un ME GUSTA a una publicacion en la red social
      * @param sn SocialNetwork
      */
-    public void like(Socialnetwork sn) {
+    public void like(Socialnetwork sn, int entrada1) {
 
         LocalDate today = LocalDate.now(); //fecha del actual sistema
         String fecha = today.format(DateTimeFormatter.ofPattern("dd/MMM/yy")); //fecha a String
-
-        Scanner scan = new Scanner(System.in); //Scanner para scanear el id de la publicacion a dar ME GUSTA
 
         ArrayList<Usuario> UsuarioActivo = sn.getUsuarioActivo();
         ArrayList<Publicacion> listaPublicaciones = sn.getPublicaciones();
@@ -584,62 +541,59 @@ public class Usuario {
 
         String nombreUsuario = UsuarioActivo.get(0).getNombre(); // Se obtiene el nombre del usuario activo
 
-        boolean salir = false;
-        while (!salir) {
+        
 
-            System.out.printf("\n\n Publicaciones disponibles "); //Se muestra al usuario activo las publicaciones que puede dar ME GUSTA
-            for (Publicacion Post : listaPublicaciones) {
-                int idPost = Post.getId();
-                String contenido = Post.getContenido();
-                String autor = Post.getAutor();
-                System.out.printf("\n ID: " + idPost + " | Autor: " + autor + " | Contenido: " + contenido);
-            }
+        //System.out.println("\n\n Ingrese el ID de la publicacion a dar ME GUSTA: \n");
+        int IDpost = entrada1; // Se escanea el id de la publicacion a dar ME GUSTA
 
-            System.out.println("\n\n Ingrese el ID de la publicacion a dar ME GUSTA: \n");
-            int IDpost = scan.nextInt(); // Se escanea el id de la publicacion a dar ME GUSTA
+        Publicacion post = new Publicacion(IDpost, (ArrayList) null, null, null, null, null); // se crea publicacion a buscar
 
-            Publicacion post = new Publicacion(IDpost, (ArrayList) null, null, null, null, null); // se crea publicacion a buscar
+        boolean encontrado = false;
 
-            boolean encontrado = false;
-
-            for (Publicacion p : listaPublicaciones) { // se recorre la lista de publicaciones registradas en la red social
-                if (p.getId() == post.getId()) { // se encuentra la publicacion
-                    postLike = p;
-                    salir = true;
-                    encontrado = true;
-                }
-            }
-            if (!encontrado) { //mensaje de error la publicacion no se encuentra registrada
-                System.out.println("\n\n ****** La Publicacion NO existe ****** \n");
+        for (Publicacion p : listaPublicaciones) { // se recorre la lista de publicaciones registradas en la red social
+            if (p.getId() == post.getId()) { // se encuentra la publicacion
+                postLike = p;
+                    
+                encontrado = true;
             }
         }
+        if (!encontrado) { //mensaje de error la publicacion no se encuentra registrada
+            System.out.println("\n\n ****** La Publicacion NO existe ****** \n");
+            new PostNotFoundLike().setVisible(true);
+        }
+        
+        if (encontrado == true) {
+            
+            if (postLike.getReacciones() == null) { //si la publicacion NO tiene reacciones
+                if (sn.getReacciones() == null) { //si la red social NO existen reacciones
+                    Reaccion like = new Reaccion(1, nombreUsuario, fecha, "me gusta", null);
+                    ArrayList<Reaccion> reacciones = new ArrayList<>();
+                    reacciones.add(like);
+                    postLike.setReacciones(reacciones); //se añade el ME GUSTA a las reacciones de la publicacion
+                    sn.setReacciones(reacciones);   //se añade el ME GUSTA a las reacciones de la red social
+                } else { // si la publicacion NO tiene reacciones Y la red social existen reacciones
+                    int id = sn.getReacciones().size() + 1;
+                    Reaccion like = new Reaccion(id, nombreUsuario, fecha, "me gusta", null);
+                    ArrayList<Reaccion> reacciones = new ArrayList<>();
+                    reacciones.add(like);
+                    postLike.setReacciones(reacciones); //se añade el ME GUSTA a las reacciones de la publicacion
+                    ArrayList<Reaccion> reaccionesSn = sn.getReacciones();
+                    reaccionesSn.add(like); //se añade el ME GUSTA a las reacciones de la red social
+                }
 
-        if (postLike.getReacciones() == null) { //si la publicacion NO tiene reacciones
-            if (sn.getReacciones() == null) { //si la red social NO existen reacciones
-                Reaccion like = new Reaccion(1, nombreUsuario, fecha, "me gusta", null);
-                ArrayList<Reaccion> reacciones = new ArrayList<>();
-                reacciones.add(like);
-                postLike.setReacciones(reacciones); //se añade el ME GUSTA a las reacciones de la publicacion
-                sn.setReacciones(reacciones);   //se añade el ME GUSTA a las reacciones de la red social
-            } else { // si la publicacion NO tiene reacciones Y la red social existen reacciones
+            } else { //Si la publicacion tiene reacciones previas
                 int id = sn.getReacciones().size() + 1;
                 Reaccion like = new Reaccion(id, nombreUsuario, fecha, "me gusta", null);
-                ArrayList<Reaccion> reacciones = new ArrayList<>();
-                reacciones.add(like);
-                postLike.setReacciones(reacciones); //se añade el ME GUSTA a las reacciones de la publicacion
+                ArrayList<Reaccion> reacciones = postLike.getReacciones();
+                reacciones.add(like);//se añade el ME GUSTA a las reacciones de la publicacion
                 ArrayList<Reaccion> reaccionesSn = sn.getReacciones();
-                reaccionesSn.add(like); //se añade el ME GUSTA a las reacciones de la red social
+                reaccionesSn.add(like);//se añade el ME GUSTA a las reacciones de la red social
             }
-
-        } else { //Si la publicacion tiene reacciones previas
-            int id = sn.getReacciones().size() + 1;
-            Reaccion like = new Reaccion(id, nombreUsuario, fecha, "me gusta", null);
-            ArrayList<Reaccion> reacciones = postLike.getReacciones();
-            reacciones.add(like);//se añade el ME GUSTA a las reacciones de la publicacion
-            ArrayList<Reaccion> reaccionesSn = sn.getReacciones();
-            reaccionesSn.add(like);//se añade el ME GUSTA a las reacciones de la red social
+            System.out.printf("\n\n -----> Se ha realizado un ME GUSTA <----- \n");
+            new LikeSuccess().setVisible(true);
+            
         }
-        System.out.printf("\n\n -----> Se ha realizado un ME GUSTA <----- \n");
+        
 
 
     }
