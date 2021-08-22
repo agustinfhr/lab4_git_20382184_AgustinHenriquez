@@ -5,8 +5,12 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import java.awt.Graphics;
+import socialnetwork.clases.Socialnetwork;
 
-
+/**
+ * Una clase para representar la interfaz principal de la red social, muestra las opciones de iniciar sesion o registrarse
+ * 
+ */
 public class MainFrame extends javax.swing.JFrame {
 
     FondoPanel fondo = new FondoPanel();
@@ -119,11 +123,11 @@ public class MainFrame extends javax.swing.JFrame {
     //Boton Registrarse
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         
+        new RegisterFrame().setVisible(true);
+        setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+ 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

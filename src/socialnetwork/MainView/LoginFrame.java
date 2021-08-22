@@ -6,10 +6,12 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import socialnetwork.clases.Usuario;
 
-
+/**
+ * Una clase para representar la interfaz de realizar un login
+ * 
+ */
 public class LoginFrame extends javax.swing.JFrame {
 
     FondoPanel fondo = new FondoPanel();
@@ -73,6 +75,8 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        jTextField1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTextField1.setForeground(new java.awt.Color(102, 102, 102));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -172,9 +176,7 @@ public class LoginFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

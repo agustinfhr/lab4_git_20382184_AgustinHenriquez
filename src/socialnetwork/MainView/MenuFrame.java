@@ -1,18 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package socialnetwork.MainView;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import socialnetwork.clases.Usuario;
 
 /**
- *
- * @author agust
+ * Una clase para representar la interfaz del menu principal
+ * 
  */
 public class MenuFrame extends javax.swing.JFrame {
 
@@ -24,7 +24,7 @@ public class MenuFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
     
-    public static String username = MainFrame.sn.getUsuarioActivo().get(0).getNombre();
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -210,51 +210,59 @@ public class MenuFrame extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel2.setText(username);
+        jLabel2.setText(MainFrame.sn.getUsuarioActivo().get(0).getNombre());
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 150, 40));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 430, 70));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
     //Boton Post
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         setVisible(false);
         new PostFrame().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+    
     //Boton Follow
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         setVisible(false);
         new FollowFrame().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+   
     //Boton Share
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         setVisible(false);
         new ShareFrame().setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
+    
     //Boton Comment
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         setVisible(false);
         new CommentFrame().setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
+    
     //Boton Like
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         setVisible(false);
         new LikeFrame().setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
+    
     //Boton Visualize
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         setVisible(false);
         new VisualizeFrame().setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
+    
     //Boton Logout
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
+        Usuario user = new Usuario(" ", " ", 0, (ArrayList)null, (ArrayList)null, (ArrayList)null);
+        user.logout(MainFrame.sn);
+        new MainFrame().setVisible(true);
     }//GEN-LAST:event_jButton9ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

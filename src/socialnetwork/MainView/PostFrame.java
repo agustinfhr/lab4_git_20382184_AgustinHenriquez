@@ -1,21 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package socialnetwork.MainView;
 
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.DefaultListModel;
+import socialnetwork.clases.Usuario;
+import socialnetwork.clases.Publicacion;
 
 /**
- *
- * @author agust
+ * Una clase para representar la interfaz de realizar un post
+ * 
  */
 public class PostFrame extends javax.swing.JFrame {
 
@@ -29,11 +26,8 @@ public class PostFrame extends javax.swing.JFrame {
         limpiarJList();
     }
 
-    
     ArrayList<String> nuevaListUsers = new ArrayList<>(); //Creamos lista vacia para ingresar a los usuarios dirigidos
-    
-    
-   
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -97,7 +91,12 @@ public class PostFrame extends javax.swing.JFrame {
             }
         });
 
+        jList1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jList1.setForeground(new java.awt.Color(102, 102, 102));
         jScrollPane1.setViewportView(jList1);
+
+        jTextField3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTextField3.setForeground(new java.awt.Color(102, 102, 102));
 
         jButton11.setBackground(new java.awt.Color(255, 102, 102));
         jButton11.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -219,14 +218,10 @@ public class PostFrame extends javax.swing.JFrame {
         if (encontrado == false) {
             new UseNotFoundFrame().setVisible(true);
         }
-        
-       
-        
+            
     }//GEN-LAST:event_jButton11ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -298,7 +293,7 @@ public class PostFrame extends javax.swing.JFrame {
     
     
     
-class FondoPanel extends JPanel {
+    class FondoPanel extends JPanel {
         
         private Image imagen;
         
@@ -314,7 +309,7 @@ class FondoPanel extends JPanel {
             super.paint(g);
         }
                 
-   }
+    }
 
 
 

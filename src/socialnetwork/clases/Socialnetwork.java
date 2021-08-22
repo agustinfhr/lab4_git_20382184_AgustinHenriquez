@@ -1,9 +1,9 @@
-package socialnetwork.MainView;
+package socialnetwork.clases;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
-
+import socialnetwork.MainView.RegisterFailUserName;
+import socialnetwork.MainView.RegisterSuccess;
 /**
  * Una clase para representar la red social SocialNetwork
  * Cada SocialNetwork queda determinado por los Usuarios, Publicaciones, Reacciones y Usuario activo
@@ -76,37 +76,36 @@ public class Socialnetwork {
      * Crea el registro de un nuevo Usuario a la red social
      * @param sn SocialNetwork
      */
-    public void register(Socialnetwork sn) {
-        Scanner entrada1 = new Scanner(System.in); //Scanner para ingresar un nombre de Usuario a registrar
-        Scanner entrada2 = new Scanner(System.in); //Scanner para ingresar una contrasenia a registrar
+    public void register(Socialnetwork sn, String entrada1, String entrada2) {
+        
         ArrayList<Usuario> listaUsuarios = sn.getUsuarios(); // Se obtienen los Usuarios de la red social
-        boolean registrar = false;
+        
 
-        while(!registrar) {
-            System.out.println("\n\n Ingrese nombre de usuario a registrar: ");
-            String username = entrada1.next(); // Se ingresa nombre de usuario
-            System.out.println("\n Ingrese contrasenia a registrar: ");
-            String password = entrada2.next(); // se ingresa contrasenia
-            int id = getUsuarios().size() + 1; // se asigna un nuevo id unico al usuario
-            Usuario usuarioNuevo = new Usuario(username, password, id, (ArrayList)null, (ArrayList)null,(ArrayList)null); // Se crea al nuevo usuario
-            boolean encontrado = false; // 'encontrado' ayudara a verificar si el usuario ingresado ya habia sido registrado
+        //System.out.println("\n\n Ingrese nombre de usuario a registrar: ");
+        String username = entrada1; // Se ingresa nombre de usuario
+        //System.out.println("\n Ingrese contrasenia a registrar: ");
+        String password = entrada2; // se ingresa contrasenia
+        int id = getUsuarios().size() + 1; // se asigna un nuevo id unico al usuario
+        Usuario usuarioNuevo = new Usuario(username, password, id, (ArrayList)null, (ArrayList)null,(ArrayList)null); // Se crea al nuevo usuario
+        boolean encontrado = false; // 'encontrado' ayudara a verificar si el usuario ingresado ya habia sido registrado
 
-            for (Usuario u : listaUsuarios) { // ciclo for para recorrer los usuarios de la red social
+        for (Usuario u : listaUsuarios) { // ciclo for para recorrer los usuarios de la red social
 
-                if (u.getNombre().equals(usuarioNuevo.getNombre())) { //si el nombre de usuario coincide con uno de la red social (es decir, que ya se encuentra registrado)
-                    encontrado = true;                                // el verificador 'encontrado' cambiara a true
-                    break;
-                }
-            }
-
-            if (encontrado) { //Muestra error por intentar registrar un nombre de usuario ya registrado
-                System.out.println("\n ***** Nombre de Usuario YA REGISTRADO ***** ");
-            } else {
-                listaUsuarios.add(usuarioNuevo); //Muestra mensaje de que el nuevo usuario se ha registrado con exito
-                System.out.println("\n\n--> Se ha registrado a JAVAGRAM! <--");
-                registrar = true; //Se termina el ciclo while
+            if (u.getNombre().equals(usuarioNuevo.getNombre())) { //si el nombre de usuario coincide con uno de la red social (es decir, que ya se encuentra registrado)
+                encontrado = true;                                // el verificador 'encontrado' cambiara a true
+                break;
             }
         }
+
+        if (encontrado) { //Muestra error por intentar registrar un nombre de usuario ya registrado
+            System.out.println("\n ***** Nombre de Usuario YA REGISTRADO ***** ");
+            new RegisterFailUserName().setVisible(true);
+        } else {
+            listaUsuarios.add(usuarioNuevo); //Muestra mensaje de que el nuevo usuario se ha registrado con exito
+            System.out.println("\n\n--> Se ha registrado a JAVAGRAM! <--");
+            new RegisterSuccess().setVisible(true);
+        }
+        
     }
 
 

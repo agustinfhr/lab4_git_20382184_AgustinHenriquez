@@ -1,10 +1,21 @@
-package socialnetwork.MainView;
+package socialnetwork.clases;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Scanner;
 import javax.swing.DefaultListModel;
+import socialnetwork.MainView.CommentSuccess;
+import socialnetwork.MainView.FollowSuccess;
+import socialnetwork.MainView.LikeSuccess;
+import socialnetwork.MainView.LoginSuccess;
+import socialnetwork.MainView.PostSuccess;
+import socialnetwork.MainView.ShareSuccess;
+import socialnetwork.MainView.LoginNotFound;
+import socialnetwork.MainView.LoginWrongPass;
+import socialnetwork.MainView.PostNotFound;
+import socialnetwork.MainView.PostNotFoundComment;
+import socialnetwork.MainView.PostNotFoundLike;
+import socialnetwork.MainView.YaFollowFail;
 
 /**
  * Una clase para representar un Usuario dentro de la red social
@@ -399,15 +410,17 @@ public class Usuario {
         
             //sn1 = "\n ---- Tus Publicaciones ---- \n\n" + publicaciones.toString();
         }
-
+            
         if (seguidores == null) {
             //sn2 = "\n ---- Tus Seguidores ---- \n\n" + " No tienes Seguidores\n";
+            modelo.addElement(" ");
             modelo.addElement("---- Tus Seguidores ----");
             modelo.addElement("");
             modelo.addElement(" No tienes Seguidores");
             modelo.addElement("");
             
         } else {
+            modelo.addElement(" ");
             modelo.addElement("---- Tus Seguidores ----");
             modelo.addElement("");
             modelo.addElement(seguidores);
@@ -416,12 +429,14 @@ public class Usuario {
         }
 
         if (publicacionesCompartidas == null) {
+            modelo.addElement(" ");
             modelo.addElement("---- Publicaciones que te compartieron ----");
             modelo.addElement("");
             modelo.addElement(" No tienes Publicaciones compartidas");
             modelo.addElement("");
             //sn3 = "\n ---- Publicaciones que te compartieron ---- \n\n" + " No tienes Publicaciones compartidas\n";
         } else {
+            modelo.addElement(" ");
             modelo.addElement("---- Publicaciones que te compartieron ----");
             modelo.addElement("");
             for (Publicacion post :  publicacionesCompartidas) {

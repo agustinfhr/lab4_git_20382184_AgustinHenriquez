@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package socialnetwork.MainView;
 
 import java.awt.Graphics;
@@ -11,10 +7,13 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import socialnetwork.clases.Usuario;
+import socialnetwork.clases.Publicacion;
+
 
 /**
- *
- * @author agust
+ * Una clase para representar la interfaz de un share
+ * 
  */
 public class ShareFrame extends javax.swing.JFrame {
 
@@ -114,7 +113,7 @@ public class ShareFrame extends javax.swing.JFrame {
         jLabel2.setText("Usuarios registrados");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 30, 274, 34));
 
-        jList2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jList2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jList2.setForeground(new java.awt.Color(102, 102, 102));
         jScrollPane2.setViewportView(jList2);
 
@@ -193,11 +192,13 @@ public class ShareFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
     //Boton Cancelar
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         setVisible(false);
         new MenuFrame().setVisible(true);
     }//GEN-LAST:event_jButton9ActionPerformed
+    
     //Boton Dirigir usuarios
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         String userDest = jTextField2.getText();
@@ -222,6 +223,7 @@ public class ShareFrame extends javax.swing.JFrame {
             new UseNotFoundFrame().setVisible(true);
         }
     }//GEN-LAST:event_jButton10ActionPerformed
+   
     //Boton Compartir
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         int entrada1 = Integer.parseInt(jTextField1.getText());
@@ -230,9 +232,7 @@ public class ShareFrame extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_jButton11ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

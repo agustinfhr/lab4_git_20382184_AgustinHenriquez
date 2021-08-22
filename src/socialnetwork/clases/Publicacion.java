@@ -1,4 +1,4 @@
-package socialnetwork.MainView;
+package socialnetwork.clases;
 
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;

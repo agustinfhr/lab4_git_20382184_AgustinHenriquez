@@ -1,4 +1,6 @@
-package SocialNetwork;
+package socialnetwork.clases;
+
+import javax.swing.DefaultListModel;
 
 /**
  * Una clase que representa una reaccion de las publicaciones de la red social
@@ -28,14 +30,19 @@ public class Reaccion {
         this.contenido = contenido;
     }
 
-    public String toString() {
+    public DefaultListModel toString(DefaultListModel modelo) {
         //La funcionalidad puede retornar varias opciones dependiendo de la reaccion
         //Si la reaccion corresponde a un comentario
         if (contenido != null) {
-            return " Id: " + id + " | Tipo de reaccion: " + tipoReaccion + " | Reaccionado por: " + autor + " | En el dia: " + fecha +
-                    "\n" + " Comentario: " + contenido + "\n";
+            modelo.addElement(" Id: " + id + " | Tipo de reaccion: " + tipoReaccion + " | Reaccionado por: " + autor + " | En el dia: " + fecha);
+            modelo.addElement(" Comentario: " + contenido);
+            modelo.addElement("");
+            return modelo;
+            
         } else {//Si la reaccion corresponde a un ME GUSTA
-            return " Id: " + id + " | Tipo de reaccion: " + tipoReaccion + " | Reaccionado por: " + autor + " | En el dia: " + fecha + "\n";
+            modelo.addElement(" Id: " + id + " | Tipo de reaccion: " + tipoReaccion + " | Reaccionado por: " + autor + " | En el dia: " + fecha);
+            modelo.addElement("");
+            return modelo;
         }
 
 
